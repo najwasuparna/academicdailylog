@@ -1,54 +1,73 @@
-<?php 
-function upload_foto($File){    
-	$uploadOk = 1;
-	$hasil = array();
-	$message = '';
- 
-	//File properties:
-	$FileName = $File['name'];
-	$TmpLocation = $File['tmp_name'];
-	$FileSize = $File['size'];
+<?php
+function upload_foto($file)
+{
+    $hasil = [
+        'status' => false,
+        'message' => '',
+        'filename' => ''
+    ];
 
-	//Figure out what kind of file this is:
-	$FileExt = explode('.', $FileName);
-	$FileExt = strtolower(end($FileExt));
+    // ===== PROPERTI FILE =====
+    $fileName = $file['name'];
+    $tmpName  = $file['tmp_name'];
+    $fileSize = $file['size'];
 
-	//Allowed files:
-	$Allowed = array('jpg', 'png', 'gif', 'jpeg');  
+    // ===== EKSTENSI =====
+    $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-	// Check file size
-	if ($FileSize > 500000) {
-		$message .= "Sorry, your file is too large, max 500KB. ";
-		$uploadOk = 0;
-	}
+    // ===== EKSTENSI YANG DIIZINKAN =====
+    $allowed = ['jpg', 'jpeg', 'png', 'gif'];
 
-	// Allow certain file formats
-	if(!in_array($FileExt, $Allowed)){
-		$message .= "Sorry, only JPG, JPEG, PNG & GIF files are allowed. ";
-		$uploadOk = 0; 
-	}
+    // ===== VALIDASI =====
+    if ($fileSize > 500000) {
+        $hasil['message'] = 'Ukuran file maksimal 500KB';
+        return $hasil;
+    }
 
-	// Check if $uploadOk is set to 0 by an error
-	if ($uploadOk == 0) {
-		$message .= "Sorry, your file was not uploaded. ";
-		$hasil['status'] = false; 
-	}else{
-				//if everything is ok, try to upload file
-				//Create new filename:
-        $NewName = date("YmdHis"). '.' . $FileExt;
-        $UploadDestination = "img/". $NewName; 
+    if (!in_array($ext, $allowed)) {
+        $hasil['message'] = 'Format file harus JPG, JPEG, PNG, atau GIF';
+        return $hasil;
+    }
 
-		if (move_uploaded_file($TmpLocation, $UploadDestination)) {
-			//echo "The file has been uploaded.";
-			$message .= $NewName;
-			$hasil['status'] = true; 
-		}else{
-			$message .= "Sorry, there was an error uploading your file. ";
-			$hasil['status'] = false; 
-		}
-	}
-	
-	$hasil['message'] = $message; 
-	return $hasil;
+    // ===== PASTIKAN FOLDER IMG ADA =====
+    if (!is_dir('img')) {
+        mkdir('img', 0777, true);
+    }
+
+    // ===== NAMA FILE BARU =====
+    $newName = date('YmdHis') . '.' . $ext;
+    $destination = 'img/' . $newName;
+
+    // ===== UPLOAD =====
+    if (move_uploaded_file($tmpName, $destination)) {
+        $hasil['status']   = true;
+        $hasil['filename'] = $newName;
+        $hasil['message']  = 'Upload berhasil';
+    } else {
+        $hasil['message'] = 'Gagal upload file';
+    }
+
+    if (isset($_POST['simpan'])) {
+
+    // UPDATE PASSWORD (jika diisi)
+    if (!empty($_POST['password'])) {
+        $password = md5($_POST['password']); // sesuaikan dg sistem loginmu
+        mysqli_query($koneksi, "UPDATE user SET password='$password' WHERE username='$username'");
+    }
+
+    // UPDATE FOTO (jika upload)
+    if (!empty($_FILES['foto']['name'])) {
+        $namaFoto = $_FILES['foto']['name'];
+        $tmp = $_FILES['foto']['tmp_name'];
+
+        move_uploaded_file($tmp, "img/".$namaFoto);
+
+        mysqli_query($koneksi, "UPDATE user SET foto='$namaFoto' WHERE username='$username'");
+    }
+
+    echo "<script>alert('Profil berhasil diperbarui');location='admin.php?page=profile';</script>";
+}
+
+    return $hasil;
 }
 ?>

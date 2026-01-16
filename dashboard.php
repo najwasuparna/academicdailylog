@@ -1,12 +1,43 @@
 <?php
-//query untuk mengambil data article
+// ambil username dari session
+$username = $_SESSION['username'];
+
+// query data user login
+$qUser = $conn->query("SELECT * FROM user WHERE username='$username'");
+
+// pastikan data user ditemukan
+if ($qUser && $qUser->num_rows > 0) {
+    $dataUser = $qUser->fetch_assoc();
+} else {
+    $dataUser = [
+        'username' => '',
+        'foto' => 'default.png'
+    ];
+}
+
+// ================= ARTICLE =================
 $sql1 = "SELECT * FROM article ORDER BY tanggal DESC";
 $hasil1 = $conn->query($sql1);
+$jumlah_article = $hasil1->num_rows;
 
-//menghitung jumlah baris data article
-$jumlah_article = $hasil1->num_rows; 
-
+// ================= GALLERY =================
+$sql2 = "SELECT * FROM gallery";
+$hasil2 = $conn->query($sql2);
+$jumlah_gallery = $hasil2->num_rows;
 ?>
+
+
+<div class="text-center my-4">
+    <h5>Selamat Datang,</h5>
+    <h3 class="text-danger fw-bold"><?= $dataUser['username']; ?></h3>
+
+    <img src="img/<?= $dataUser['foto']; ?>"
+         class="rounded-circle my-3"
+         width="150" height="150"
+         style="object-fit:cover;">
+</div>
+
+
 <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center pt-4">
     <div class="col">
         <div class="card border border-danger mb-3 shadow" style="max-width: 18rem;">
@@ -30,7 +61,10 @@ $jumlah_article = $hasil1->num_rows;
                         <h5 class="card-title"><i class="bi bi-camera"></i> Gallery</h5> 
                     </div>
                     <div class="p-3">
-                        <span class="badge rounded-pill text-bg-danger fs-2">0</span>
+                        <span class="badge rounded-pill text-bg-danger fs-2">
+    <?php echo $jumlah_gallery; ?>
+</span>
+
                     </div> 
                 </div>
             </div>

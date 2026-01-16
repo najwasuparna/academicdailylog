@@ -1,6 +1,7 @@
 <?php
 //menyertakan code dari file koneksi
 include "koneksi.php";
+
 ?>
 
 <!doctype html>
@@ -9,7 +10,7 @@ include "koneksi.php";
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Academic Daily Log</title>
-    <link rel="icon" href="logo.png" />
+    <link rel="icon" href="logo2.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link 
@@ -201,34 +202,68 @@ body.dark-theme #about {
   </div>
 </section>
     <!--article end-->
-    <!--gallery begin-->
-    <section id="gallery" class="text-center p-5 bg-info-subtle">
-        <div class="container">
-            <h1 class="fw-bold display-4 pb-3">gallery</h1>
-            <div id="carouselExample" class="carousel slide">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="img/gal1.avif" class="d-block w-100" alt="300x200">
+<!--gallery begin-->
+<section id="gallery" class="text-center p-5 bg-info-subtle">
+  <div class="container">
+    <h1 class="fw-bold display-4 pb-3">Gallery</h1>
+
+    <?php
+    $sql = "SELECT * FROM gallery ORDER BY tanggal DESC";
+    $hasil = $conn->query($sql);
+    ?>
+
+    <?php if ($hasil->num_rows > 0) : ?>
+    <div id="carouselGallery" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+
+        <?php
+        $active = "active";
+        while ($row = $hasil->fetch_assoc()) :
+            if ($row['image'] == '') continue;
+        ?>
+<div class="carousel-item <?= $active ?> text-center">
+    
+    <!-- FOTO -->
+    <img src="img/<?= htmlspecialchars($row['image']) ?>"
+         class="d-block mx-auto"
+         style="max-width: 600px; height: auto;"
+         alt="<?= htmlspecialchars($row['deskripsi']) ?>">
+
+    <!-- DESKRIPSI DI BAWAH FOTO -->
+    <div class="mt-3 px-3">
+        <p class="fw-semibold mb-0">
+            <?= htmlspecialchars($row['deskripsi']) ?>
+        </p>
     </div>
-    <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
+
 </div>
-        </div>
-    </section>
-    <!--gallery end-->
+
+
+          </div>
+        <?php
+            $active = "";
+        endwhile;
+        ?>
+
+      </div>
+
+      <button class="carousel-control-prev" type="button"
+              data-bs-target="#carouselGallery" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+
+      <button class="carousel-control-next" type="button"
+              data-bs-target="#carouselGallery" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+    <?php else : ?>
+      <p class="text-muted">Belum ada gambar di gallery.</p>
+    <?php endif; ?>
+
+  </div>
+</section>
+<!--gallery end-->
     <!-- SCHEDULE BEGIN -->
 <section id="schedule" class="text-center p-5">
   <div class="container">
