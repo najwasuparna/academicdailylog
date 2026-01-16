@@ -10,7 +10,7 @@ include "koneksi.php";
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Academic Daily Log</title>
-    <link rel="icon" href="logo2.png" />
+    <link rel="icon" href="img/logo2.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link 
@@ -94,6 +94,49 @@ body.dark-theme #schedule,
 body.dark-theme #about {
   background-color: #1f1f1f !important;
   color: #f8f9fa !important;
+}
+
+#gallery {
+  margin-bottom: 3rem;
+}
+
+.gallery-img {
+  width: 600px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.gallery-img {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  object-fit: cover;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 55px;
+  height: 55px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1;
+}
+
+.carousel-control-prev {
+  left: 20px;
+}
+
+.carousel-control-next {
+  right: 20px;
 }
 
 </style>
@@ -214,49 +257,45 @@ body.dark-theme #about {
 
     <?php if ($hasil->num_rows > 0) : ?>
     <div id="carouselGallery" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
+  <div class="carousel-inner">
 
-        <?php
-        $active = "active";
-        while ($row = $hasil->fetch_assoc()) :
-            if ($row['image'] == '') continue;
-        ?>
-<div class="carousel-item <?= $active ?> text-center">
-    
-    <!-- FOTO -->
-    <img src="img/<?= htmlspecialchars($row['image']) ?>"
-         class="d-block mx-auto"
-         style="max-width: 600px; height: auto;"
-         alt="<?= htmlspecialchars($row['deskripsi']) ?>">
+    <?php
+    $active = "active";
+    while ($row = $hasil->fetch_assoc()) :
+      if ($row['image'] == '') continue;
+    ?>
+      <div class="carousel-item <?= $active ?> text-center">
 
-    <!-- DESKRIPSI DI BAWAH FOTO -->
-    <div class="mt-3 px-3">
-        <p class="fw-semibold mb-0">
+        <img src="img/<?= htmlspecialchars($row['image']) ?>"
+     class="d-block mx-auto gallery-img"
+     alt="<?= htmlspecialchars($row['deskripsi']) ?>">
+
+
+        <div class="mt-3 px-3">
+          <p class="fw-semibold mb-0">
             <?= htmlspecialchars($row['deskripsi']) ?>
-        </p>
-    </div>
-
-</div>
-
-
-          </div>
-        <?php
-            $active = "";
-        endwhile;
-        ?>
+          </p>
+        </div>
 
       </div>
+    <?php
+      $active = "";
+    endwhile;
+    ?>
 
-      <button class="carousel-control-prev" type="button"
-              data-bs-target="#carouselGallery" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </button>
+  </div>
 
-      <button class="carousel-control-next" type="button"
-              data-bs-target="#carouselGallery" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </button>
-    </div>
+  <button class="carousel-control-prev" type="button"
+          data-bs-target="#carouselGallery" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+
+  <button class="carousel-control-next" type="button"
+          data-bs-target="#carouselGallery" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
     <?php else : ?>
       <p class="text-muted">Belum ada gambar di gallery.</p>
     <?php endif; ?>
@@ -389,13 +428,13 @@ body.dark-theme #about {
           <button class="accordion-button collapsed custom-accordion-btn" type="button" 
                   data-bs-toggle="collapse" data-bs-target="#collapseTwo" 
                   aria-expanded="false" aria-controls="collapseTwo">
-            SMA Negeri 1 Semarang (2021–2024)
+            SMA Negeri 8 Semarang (2021–2024)
           </button>
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse" 
              aria-labelledby="headingTwo" data-bs-parent="#aboutAccordion">
           <div class="accordion-body">
-            Saya adalah lulusan SMA Negeri 1 Semarang. Selama SMA, 
+            Saya adalah lulusan SMA Negeri 8 Semarang. Selama SMA, 
             saya aktif dalam kegiatan organisasi dan akademik.
           </div>
         </div>
@@ -406,13 +445,13 @@ body.dark-theme #about {
           <button class="accordion-button collapsed custom-accordion-btn" type="button" 
                   data-bs-toggle="collapse" data-bs-target="#collapseThree" 
                   aria-expanded="false" aria-controls="collapseThree">
-            SMP Negeri 2 Semarang (2018–2021)
+            SMP Negeri 18 Semarang (2018–2021)
           </button>
         </h2>
         <div id="collapseThree" class="accordion-collapse collapse" 
              aria-labelledby="headingThree" data-bs-parent="#aboutAccordion">
           <div class="accordion-body">
-            Saya bersekolah di SMP Negeri 2 Semarang dan selalu bersemangat 
+            Saya bersekolah di SMP Negeri 18 Semarang dan selalu bersemangat 
             dalam mengikuti pembelajaran dan kegiatan ekstrakurikuler.
           </div>
         </div>

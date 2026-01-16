@@ -47,27 +47,6 @@ function upload_foto($file)
         $hasil['message'] = 'Gagal upload file';
     }
 
-    if (isset($_POST['simpan'])) {
-
-    // UPDATE PASSWORD (jika diisi)
-    if (!empty($_POST['password'])) {
-        $password = md5($_POST['password']); // sesuaikan dg sistem loginmu
-        mysqli_query($koneksi, "UPDATE user SET password='$password' WHERE username='$username'");
-    }
-
-    // UPDATE FOTO (jika upload)
-    if (!empty($_FILES['foto']['name'])) {
-        $namaFoto = $_FILES['foto']['name'];
-        $tmp = $_FILES['foto']['tmp_name'];
-
-        move_uploaded_file($tmp, "img/".$namaFoto);
-
-        mysqli_query($koneksi, "UPDATE user SET foto='$namaFoto' WHERE username='$username'");
-    }
-
-    echo "<script>alert('Profil berhasil diperbarui');location='admin.php?page=profile';</script>";
-}
-
     return $hasil;
 }
 ?>

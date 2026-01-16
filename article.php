@@ -116,7 +116,8 @@ if (isset($_POST['simpan'])) {
         //cek status upload file hasilnya true/false
         if ($cek_upload['status']) {
             //jika true maka message berisi nama file gambar
-            $gambar = $cek_upload['message'];
+            $gambar = $cek_upload['filename'];
+
         } else {
             //jika true maka message berisi pesan error, tampilkan dalam alert
             echo "<script>
