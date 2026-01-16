@@ -272,9 +272,10 @@ body.dark-theme #about {
 
 
         <div class="mt-3 px-3">
-          <p class="fw-semibold mb-0">
-            <?= htmlspecialchars($row['deskripsi']) ?>
-          </p>
+          <p class="fs-3 mb-0">
+  <?= htmlspecialchars($row['deskripsi']) ?>
+</p>
+
         </div>
 
       </div>

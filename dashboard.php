@@ -33,12 +33,12 @@ $jumlah_gallery = $hasil2->num_rows;
 
     <img src="img/<?= $dataUser['foto']; ?>"
          class="rounded-circle my-3"
-         width="150" height="150"
+         width="200" height="200"
          style="object-fit:cover;">
 </div>
 
 
-<div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center pt-4">
+<div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center pt-1">
     <div class="col">
         <div class="card border border-danger mb-3 shadow" style="max-width: 18rem;">
             <div class="card-body">
